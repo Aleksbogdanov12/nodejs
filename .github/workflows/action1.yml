@@ -9,6 +9,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependecies
         run: npm ci
       - name: Run Lint
@@ -18,20 +23,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependecies
         run: npm ci
       - name: Test code
         run: npm run test
   Deploy:
     runs-on: ubuntu-latest
-    outputs:
-      script_file: ${{ steps.publish.outputs.script-file }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependecies
         run: npm ci
-
       - name: npm run build
         run: |
           ls
@@ -43,9 +55,6 @@ jobs:
           name: dist-files
           path: |
             new_path
-      - name: Publish JS 
-        id: publish
-        run: find new_path/assets/*.js -type f -execdir echo '::set-ouput name=script-file::{}' ';'
   Download:
     runs-on: ubuntu-latest
     needs: Deploy
@@ -56,5 +65,3 @@ jobs:
           name: dist-files
       - name: A
         run: ls
-      - name: B
-        run: echo "${{ needs.build.ouputs.script-file }}"
