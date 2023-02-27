@@ -30,7 +30,9 @@ jobs:
       - name: Install dependecies
         run: npm ci
       - name: npm run build
-        run: echo "Deploy"
+        run: |
+        ls
+        echo "Deploy"
       - name: Upload
         uses: actions/upload-artifact@v3
         with:
