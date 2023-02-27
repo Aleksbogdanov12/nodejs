@@ -6,6 +6,4 @@ jobs:
     steps:
       - name: Output event details
         run: echo "${{ toJSON(github.event) }}"
-      - name: New
-        run: echo "${{ toJSON(github) }}"
-
+      
