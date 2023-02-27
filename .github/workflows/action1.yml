@@ -35,7 +35,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          path: dist
+          path: |
+            my_path
+            new_path
   Download:
     runs-on: ubuntu-latest
     needs: Deploy
