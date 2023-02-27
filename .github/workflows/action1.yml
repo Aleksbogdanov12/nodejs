@@ -49,6 +49,6 @@ jobs:
       - name: Upload
         uses: actions/download-artifact@v3
         with:
-          name: dist-files
+          name: dist
       - name: A
         run: ls
