@@ -33,12 +33,12 @@ jobs:
         run: |
           ls
           echo "Deploy"
+          touch new_path
       - name: Upload
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
           path: |
-            my_path
             new_path
   Download:
     runs-on: ubuntu-latest
