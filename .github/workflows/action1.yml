@@ -1,4 +1,4 @@
-name: Some NodeJS
+name: NodeJS
 on:
   push:
     branches:
@@ -14,7 +14,10 @@ jobs:
       - name: Test code
         run: npm run test
   build:
+    needs: test
     runs-on: ubuntu-latest
+    output:
+      script-file: ${{ steps.publish.outputs.script-file }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -22,6 +25,9 @@ jobs:
         run: npm ci
       - name: Build Website
         run: npm run build
+      - name: Publish JS File
+        id: publish
+        run: find dist/assets/*.js -type f -execdir echo '::set-ouput name=script-file::{}' ';'
       - name: Upload
         uses: actions/upload-artifact@v3
         with:
@@ -35,5 +41,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist-files
-      - name: A
-        run: ls
+      - name: Output
+        run: echo "${{ needs.build.outputs.script-file }}"
+      - name: Deploy
+        run: echo "Deploying ..."
