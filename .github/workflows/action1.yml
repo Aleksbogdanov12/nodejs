@@ -29,7 +29,7 @@ jobs:
           path: nodejs/dist
   deploy:
     runs-on: ubuntu-latest
-    needs: Deploy
+    needs: build
     steps:
       - name: Upload
         uses: actions/download-artifact@v3
